@@ -65,6 +65,10 @@
 }
 
 .Keywords {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+
   a {
     border-radius: var(--border-radius-400);
     padding: 0.1rem 0.3rem 0.15rem;
@@ -78,6 +82,11 @@
     &:hover {
       border-color: var(--border-color);
       color: var(--text-strong);
+    }
+
+    &.active {
+      background-color: var(--primary);
+      color: var(--surface);
     }
   }
 }
@@ -113,8 +122,14 @@
 }
 
 .IconDescription {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   margin-top: 0.25rem;
-  letter-spacing: var(--letter-spacing-100);
+
+  p {
+    letter-spacing: var(--letter-spacing-100);
+  }
 }
 
 .SmallParagraph {

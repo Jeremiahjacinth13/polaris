@@ -1,4 +1,4 @@
-import {useEffect, useState, Fragment} from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Code from '../Code';
 import Icon from '../Icon';
@@ -12,9 +12,10 @@ interface Props {
     description: string;
     keywords: string[];
   };
+  iconSearchQuery: string;
 }
 
-function IconDetails({fileName, iconData}: Props) {
+function IconDetails({ fileName, iconData, iconSearchQuery }: Props) {
   const [blob, setBlob]: any = useState();
 
   useEffect(() => {
@@ -57,27 +58,27 @@ function IconDetails({fileName, iconData}: Props) {
         <h2 className={styles.Title}>{id}</h2>
 
         {description !== 'N/A' && (
-          <p className={styles.IconDescription}>
-            {description}{' '}
-            <span className={styles.Keywords}>
+          <div className={styles.IconDescription}>
+            <p>
+              {description}
+            </p>
+            <div className={styles.Keywords}>
               {keywords
                 .filter((keyword) => keyword !== 'N/A')
-                .map((keyword, i) => {
+                .map((keyword) => {
                   return (
-                    <Fragment key={i}>
-                      <Link
-                        key={keyword}
-                        href={{query: {icon: fileName, q: keyword}}}
-                        scroll={false}
-                      >
-                        {keyword}
-                      </Link>
-                      {i < keywords.length - 1 && ' '}
-                    </Fragment>
+                    <Link
+                      key={keyword}
+                      href={{ query: { icon: fileName, q: keyword } }}
+                      scroll={false}
+                      className={keyword === iconSearchQuery ? styles.active : ''}
+                    >
+                      {keyword}
+                    </Link>
                   );
                 })}
-            </span>
-          </p>
+            </div>
+          </div>
         )}
 
         <a className={styles.DownloadButton} href={blob} download={fileName}>
@@ -100,7 +101,7 @@ function IconDetails({fileName, iconData}: Props) {
         </p>
 
         <div className={styles.CodeWrapper}>
-          <Code code={{title: 'Import', code: reactExamples.imports}} />
+          <Code code={{ title: 'Import', code: reactExamples.imports }} />
         </div>
 
         <p className={styles.SmallParagraph}>

@@ -1,30 +1,30 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import Fuse from 'fuse.js';
-import {useRouter} from 'next/router';
-import {Dialog} from '@headlessui/react';
+import { useRouter } from 'next/router';
+import { Dialog } from '@headlessui/react';
 import iconMetadata from '@shopify/polaris-icons/metadata';
-import type {Icon as IconType} from '@shopify/polaris-icons/metadata';
-import {useMedia} from '../../utils/hooks';
+import type { Icon as IconType } from '@shopify/polaris-icons/metadata';
+import { useMedia } from '../../utils/hooks';
 import styles from './IconsPage.module.scss';
 import IconGrid from '../IconGrid';
 import SearchField from '../SearchField';
-import {SearchIcon} from '@shopify/polaris-icons';
+import { SearchIcon } from '@shopify/polaris-icons';
 import Icon from '../Icon';
 import IconDetails from '../IconDetails';
 import PageMeta from '../PageMeta';
-import {className} from '../../utils/various';
+import { className } from '../../utils/various';
 import Page from '../Page';
 import StatusBanner from '../StatusBanner';
-import {iconRenamesV7toV8} from './icon-renames-v7-to-v8';
+import { iconRenamesV7toV8 } from './icon-renames-v7-to-v8';
 
 const fuse = new Fuse(Object.values(iconMetadata), {
   threshold: 0.25,
   keys: [
-    {name: 'name', weight: 3},
-    {name: 'id', weight: 2},
-    {name: 'keywords', weight: 2},
-    {name: 'fileName', weight: 1},
-    {name: 'description', weight: 1},
+    { name: 'name', weight: 3 },
+    { name: 'id', weight: 2 },
+    { name: 'keywords', weight: 2 },
+    { name: 'fileName', weight: 1 },
+    { name: 'description', weight: 1 },
   ],
 });
 
@@ -93,16 +93,16 @@ function IconsPage() {
   }, [currentSearchText]);
 
   const updateQueryParams = (currentSearchText: string) => {
-    const query: {q?: string; icon?: string} = {};
+    const query: { q?: string; icon?: string } = {};
     if (currentSearchText) query.q = currentSearchText;
     if (activeIcon) query.icon = activeIcon;
-    router.push({query});
+    router.push({ query });
   };
 
   const handleModalClose = () => {
-    const query: {q?: string} = {};
+    const query: { q?: string } = {};
     if (searchText) query.q = searchText;
-    router.push({query});
+    router.push({ query });
   };
 
   const pageTitle = iconMetadata[activeIcon]
@@ -167,6 +167,7 @@ function IconsPage() {
               <IconDetails
                 fileName={activeIcon}
                 iconData={iconMetadata[activeIcon]}
+                iconSearchQuery={searchText}
               />
             </Dialog.Panel>
           </Dialog>
@@ -174,6 +175,7 @@ function IconsPage() {
           <IconDetails
             fileName={activeIcon}
             iconData={iconMetadata[activeIcon]}
+            iconSearchQuery={searchText}
           />
         )}
       </div>
